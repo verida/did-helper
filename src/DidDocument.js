@@ -1,12 +1,11 @@
-import Axios from 'axios';
-let { DIDDocument } = require('did-document');
+import { DIDDocument } from 'did-document';
 import { secretbox, box, sign, randomBytes } from "tweetnacl";
 import {
   decodeUTF8,
-  encodeUTF8,
   encodeBase64,
   decodeBase64
 } from "tweetnacl-util";
+import Axios from 'axios';
 
 /**
  * Load a DID Document from the server
