@@ -1,4 +1,4 @@
-const assert = require("assert");
+import assert from "assert";
 import DIDDocument from '../src/DidDocument';
 
 describe('DID', async function() {

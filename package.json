@@ -3,7 +3,6 @@
   "version": "0.1.1",
   "description": "Verida DID document",
   "main": "src/DidDocument.js",
-  "type": "module",
   "scripts": {
     "test": "mocha -mocha --require @babel/polyfill --require @babel/register './test/**/*.js'"
   },
