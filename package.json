@@ -1,7 +1,7 @@
 {
-  "name": "@verida/did-document",
-  "version": "0.1.1",
-  "description": "Verida DID document",
+  "name": "@verida/did-helper",
+  "version": "0.2.0",
+  "description": "Verida DID Helper",
   "main": "lib/DIDHelper.js",
   "directories": {
     "test": "test"
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/verida/did-document.git"
+    "url": "git+https://github.com/verida/did-helper.git"
   },
   "author": "Verida",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/verida/did-document/issues"
+    "url": "https://github.com/verida/did-helper/issues"
   },
-  "homepage": "https://github.com/verida/did-document#readme",
+  "homepage": "https://github.com/verida/did-helper#readme",
   "dependencies": {
     "axios": "^0.19.1",
     "did-document": "^0.6.2",
