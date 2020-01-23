@@ -1,9 +1,11 @@
 import assert from "assert";
-import DIDDocument from '../src/DidDocument';
+import { DIDDocument } from 'did-document';
+import DIDHelper from '../src/DIDHelper';
 
 describe('DID', async function() {
     describe('Document', async function() {
         let doc;
+        let HOST = 'http://localhost:5001/';
 
         this.beforeAll(async function() {
             let publicKeys = {
@@ -52,16 +54,12 @@ describe('DID', async function() {
         var did = 'did:veri:0x2e922f72f4f1a27701dde0627dfd693376ab0d02';
         
         it('should create DID with public key and save to server', async function() {
-            let result = await doc.commit(doc);
+            let result = await DIDHelper.commit(doc, HOST);
             assert(result,true);
         });
 
         it('should load a DID document from server', async function() {
-            let doc = new DIDDocument({
-                did: did
-            });
-
-            let serverDoc = await doc.load();
+            let serverDoc = await DIDHelper.load(did);
 
             if (!serverDoc) {
                 assert(true,false);
@@ -72,8 +70,8 @@ describe('DID', async function() {
 
         it('should create a valid JWT proof', async function() {
             let privateSignKey = "a8fcc1e509786771d02d36103c3c4ce8e4fe741d2a095a395d7e08b2ae15cbb4f7e03208c6f4de184a8db90d24fb8c3171dc417499ae453da4e4108edf9d717b";
-            doc.createProof(privateSignKey);
-            assert(doc.verifyProof(), true);
+            DIDHelper.createProof(doc, privateSignKey);
+            assert(DIDHelper.verifyProof(doc), true);
         })
     })
 });
