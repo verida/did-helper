@@ -6,12 +6,13 @@ describe('DID', async function() {
     describe('Document', async function() {
         let doc;
         let HOST = 'http://localhost:5001/';
+        let privateSignKey = "0xa8fcc1e509786771d02d36103c3c4ce8e4fe741d2a095a395d7e08b2ae15cbb4f7e03208c6f4de184a8db90d24fb8c3171dc417499ae453da4e4108edf9d717b";
 
         this.beforeAll(async function() {
             let publicKeys = {
-                asym: "a651b53d6688935c00d5b1035087eae1f44afcaafbd9805b023c392fa3dd3808",
-                sign: "f7e03208c6f4de184a8db90d24fb8c3171dc417499ae453da4e4108edf9d717b",
-                auth: "84faffe8e5fb67e084e6032ee7313c2645119bffbc61d57525d2c92f02afa14f"
+                asym: "0xa651b53d6688935c00d5b1035087eae1f44afcaafbd9805b023c392fa3dd3808",
+                sign: "0xf7e03208c6f4de184a8db90d24fb8c3171dc417499ae453da4e4108edf9d717b",
+                auth: "0x84faffe8e5fb67e084e6032ee7313c2645119bffbc61d57525d2c92f02afa14f"
             }
 
             doc = new DIDDocument({
@@ -52,26 +53,27 @@ describe('DID', async function() {
         });
 
         var did = 'did:veri:0x2e922f72f4f1a27701dde0627dfd693376ab0d02';
+
+        it('should have a verified proof', function() {
+            DIDHelper.createProof(doc, privateSignKey);
+            let result = DIDHelper.verifyProof(doc);
+            assert(result, true);
+        });
         
         it('should create DID with public key and save to server', async function() {
+            doc = DIDHelper.createProof(doc, privateSignKey);
             let result = await DIDHelper.commit(doc, HOST);
             assert(result,true);
         });
 
         it('should load a DID document from server', async function() {
-            let serverDoc = await DIDHelper.load(did);
+            let serverDoc = await DIDHelper.load(did, HOST);
 
             if (!serverDoc) {
-                assert(true,false);
+                assert.fail("Unable to load DID from server");
+            } else {
+                assert(serverDoc.id == did, true);
             }
-
-            assert(serverDoc.id == did, true);
         });
-
-        it('should create a valid JWT proof', async function() {
-            let privateSignKey = "a8fcc1e509786771d02d36103c3c4ce8e4fe741d2a095a395d7e08b2ae15cbb4f7e03208c6f4de184a8db90d24fb8c3171dc417499ae453da4e4108edf9d717b";
-            DIDHelper.createProof(doc, privateSignKey);
-            assert(DIDHelper.verifyProof(doc), true);
-        })
     })
 });
