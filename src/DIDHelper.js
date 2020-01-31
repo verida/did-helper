@@ -77,9 +77,7 @@ class DIDHelper {
         let data = doc.toJSON();
         delete data['proof'];
 
-        let signKey = doc.publicKey.find(entry => entry.id.includes('sign'));
-        let signKeyBytes = Buffer.from(signKey.publicKeyHex.slice(2), 'hex');
-
+        let signKeyBytes = this.getSignKeyBytes(doc);
         let messageUint8 = decodeUTF8(JSON.stringify(data));
 
         try {
@@ -87,6 +85,15 @@ class DIDHelper {
         } catch (err) {
             return false;
         }
+    }
+
+    getSignKey(doc) {
+        return doc.publicKey.find(entry => entry.id.includes('sign'));
+    }
+
+    getSignKeyBytes(doc) {
+        let signKey = this.getSignKey(doc);
+        return Buffer.from(signKey.publicKeyHex.slice(2), 'hex');
     }
 }
 
