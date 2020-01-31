@@ -1,6 +1,6 @@
 {
   "name": "@verida/did-helper",
-  "version": "0.2.1",
+  "version": "0.3",
   "description": "Verida DID Helper",
   "main": "lib/DIDHelper.js",
   "directories": {
