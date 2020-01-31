@@ -8,6 +8,9 @@ describe('DID', async function() {
         let HOST = 'http://localhost:5001/';
         let privateSignKey = "0xa8fcc1e509786771d02d36103c3c4ce8e4fe741d2a095a395d7e08b2ae15cbb4f7e03208c6f4de184a8db90d24fb8c3171dc417499ae453da4e4108edf9d717b";
 
+        var did = 'did:ethr:0x4e922f72f4f1a27701dde0627dfd693376ab0d02';
+        var vid = 'did:vid:0x2e922f72f4f1a27701dde0627dfd693376ab0d02';
+
         this.beforeAll(async function() {
             let publicKeys = {
                 asym: "0xa651b53d6688935c00d5b1035087eae1f44afcaafbd9805b023c392fa3dd3808",
@@ -16,43 +19,41 @@ describe('DID', async function() {
             }
 
             doc = new DIDDocument({
-                did: did
+                did: vid
             });
 
             doc.addPublicKey({
-                id: `${did}#asymKey`,
+                id: `${vid}#asymKey`,
                 type: 'Curve25519EncryptionPublicKey',
                 publicKeyHex: publicKeys.asym
             });
 
             doc.addPublicKey({
-                id: `${did}#sign`,
+                id: `${vid}#sign`,
                 type: 'Secp256k1VerificationKey2018',
                 publicKeyHex: publicKeys.sign
             });
 
             doc.addAuthentication({
-                publicKey: `${did}#sign`,
+                publicKey: `${vid}#sign`,
                 type: 'Secp256k1SignatureAuthentication2018'
             });
 
             doc.addService({
-                id: `${did}#application`,
+                id: `${vid}#application`,
                 type: 'verida.App',
                 serviceEndpoint: 'https://wallet.verida.io',
                 description: 'Verida Wallet'
             });
 
             doc.addService({
-                id: `${did}#Verida-Demo-Application`,
+                id: `${vid}#Verida-Demo-Application`,
                 type: 'verida.Application',
                 serviceEndpoint: 'https://demoapp.verida.io',
                 description: 'Verida Demo Application'
             });
 
         });
-
-        var did = 'did:veri:0x2e922f72f4f1a27701dde0627dfd693376ab0d02';
 
         it('should have a verified proof', function() {
             DIDHelper.createProof(doc, privateSignKey);
@@ -66,18 +67,23 @@ describe('DID', async function() {
             assert(result,true);
         });
 
-        it('should load a DID document from server', async function() {
-            let serverDoc = await DIDHelper.load(did, HOST);
+        it('should load a VID document from server', async function() {
+            let serverDoc = await DIDHelper.load(vid, HOST);
 
             if (!serverDoc) {
                 assert.fail("Unable to load DID from server");
             } else {
-                assert(serverDoc.id == did, true);
+                assert(serverDoc.id == vid, true);
             }
         });
 
-        it('should support lookig up a VID by DID', async function() {
+        it('should support lookig up a VID Document by DID', async function() {
             let doc = await DIDHelper.loadForApp(did, "Verida Demo Application", HOST);
+            
+            // Current issue:
+            //  - VID not saved in verida_did_app_lookup
+            //  - VID proof doesn't include the DID that owns it (did:ethr:0x....)
+
             assert(doc);
         })
     })

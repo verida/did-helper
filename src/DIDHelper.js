@@ -24,9 +24,9 @@ class DIDHelper {
         }
     }
 
-    async loadForApp(userDid, appName, host) {
+    async loadForApp(did, appName, host) {
         try {
-            let response = await Axios.get(host + 'loadForApp?userDid=' + userDid + '&appName=' + appName);
+            let response = await Axios.get(host + 'loadForApp?did=' + did + '&appName=' + appName);
             let document = response.data.data.document;
             let doc = new DIDDocument(document, document['@context']);
 
