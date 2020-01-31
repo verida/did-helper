@@ -37,7 +37,7 @@ describe('DID', async function() {
             });
 
             doc.addService({
-                id: `${did}#Verida-Wallet`,
+                id: `${did}#application`,
                 type: 'verida.App',
                 serviceEndpoint: 'https://wallet.verida.io',
                 description: 'Verida Wallet'
@@ -45,7 +45,7 @@ describe('DID', async function() {
 
             doc.addService({
                 id: `${did}#Verida-Demo-Application`,
-                type: 'verida.App',
+                type: 'verida.Application',
                 serviceEndpoint: 'https://demoapp.verida.io',
                 description: 'Verida Demo Application'
             });
@@ -62,7 +62,7 @@ describe('DID', async function() {
         
         it('should create DID with public key and save to server', async function() {
             doc = DIDHelper.createProof(doc, privateSignKey);
-            let result = await DIDHelper.commit(doc, HOST);
+            let result = await DIDHelper.commit(did, doc, HOST);
             assert(result,true);
         });
 
@@ -75,5 +75,10 @@ describe('DID', async function() {
                 assert(serverDoc.id == did, true);
             }
         });
+
+        it('should support lookig up a VID by DID', async function() {
+            let doc = await DIDHelper.loadForApp(did, "Verida Demo Application", HOST);
+            assert(doc);
+        })
     })
 });

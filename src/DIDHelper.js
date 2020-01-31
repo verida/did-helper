@@ -24,10 +24,22 @@ class DIDHelper {
         }
     }
 
+    async loadForApp(userDid, appName, host) {
+        try {
+            let response = await Axios.get(host + 'loadForApp?userDid=' + userDid + '&appName=' + appName);
+            let document = response.data.data.document;
+            let doc = new DIDDocument(document, document['@context']);
+
+            return doc;
+        } catch (err) {
+            return null;
+        }
+    }
+
     /**
      * Save a DID Document to the server
      */
-    async commit(didDocument, host) {
+    async commit(publicDid, didDocument, host) {
         if (!this.verifyProof(didDocument)) {
             throw new Error("Document does not have a valid proof");
         }
@@ -35,7 +47,8 @@ class DIDHelper {
         try {
             let response = await Axios.post(host + 'commit', {
                 params: {
-                    document: didDocument
+                    document: didDocument,
+                    did: publicDid
                 }
             });
 
