@@ -100,13 +100,15 @@ class DIDHelper {
         }
     }
 
-    getSignKey(doc) {
+    getKey(doc, type) {
+        type = type ? type : 'sign';
         return doc.publicKey.find(entry => entry.id.includes('sign'));
     }
 
-    getSignKeyBytes(doc) {
-        let signKey = this.getSignKey(doc);
-        return Buffer.from(signKey.publicKeyHex.slice(2), 'hex');
+    getKeyBytes(doc, type) {
+        type = type ? type : 'sign';
+        let key = this.getKey(doc, type);
+        return Buffer.from(key.publicKeyHex.slice(2), 'hex');
     }
 }
 
