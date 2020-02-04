@@ -102,7 +102,7 @@ class DIDHelper {
 
     getKey(doc, type) {
         type = type ? type : 'sign';
-        return doc.publicKey.find(entry => entry.id.includes('sign'));
+        return doc.publicKey.find(entry => entry.id.includes(type));
     }
 
     getKeyBytes(doc, type) {
