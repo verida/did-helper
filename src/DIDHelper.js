@@ -90,7 +90,7 @@ class DIDHelper {
         let data = doc.toJSON();
         delete data['proof'];
 
-        let signKeyBytes = this.getSignKeyBytes(doc);
+        let signKeyBytes = this.getKeyBytes(doc, 'sign');
         let messageUint8 = decodeUTF8(JSON.stringify(data));
 
         try {
