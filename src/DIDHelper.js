@@ -10,11 +10,11 @@ import Axios from 'axios';
 class DIDHelper {
 
     /**
-     * Load a DID Document from the server
+     * Load a VID Document from the server
      */
-    async load(did, host) {
+    async load(vid, host) {
         try {
-            let response = await Axios.get(host + 'load?did=' + did);
+            let response = await Axios.get(host + 'load?vid=' + vid);
             let document = response.data.data.document;
             let doc = new DIDDocument(document, document['@context']);
 
