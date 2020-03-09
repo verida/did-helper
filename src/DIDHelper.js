@@ -10,7 +10,7 @@ import Axios from 'axios';
 class DIDHelper {
 
     /**
-     * Load a VID Document from the server
+     * Load a VID Document from the server by VID
      */
     async load(vid, host) {
         try {
@@ -24,6 +24,9 @@ class DIDHelper {
         }
     }
 
+    /**
+     * Load a VID Document from the server by DID and app name
+     */
     async loadForApp(did, appName, host) {
         try {
             let response = await Axios.get(host + 'loadForApp?did=' + did + '&appName=' + appName);
@@ -35,6 +38,20 @@ class DIDHelper {
             return null;
         }
     }
+
+    /**
+     * Load the DID linked to a VID
+     */
+    async getDidFromVid(vid, host) {
+        try {
+            let response = await Axios.get(host + 'getDidFromVid?vid=' + vid);
+            let did = response.data.data.did;
+            return did;
+        } catch (err) {
+            return null;
+        }
+    }
+
 
     /**
      * Save a DID Document to the server
