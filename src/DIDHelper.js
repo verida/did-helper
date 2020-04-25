@@ -87,8 +87,8 @@ class DIDHelper {
 
         let messageUint8 = decodeUTF8(JSON.stringify(data));
         let signature = encodeBase64(sign.detached(messageUint8, privateKeyBytes));
-        
-        doc.proof({
+
+        Object.assign(doc.proof, {
             alg: 'ES256K',
             signature: signature
         });
