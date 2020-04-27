@@ -89,7 +89,7 @@ class DIDHelper {
         let signature = encodeBase64(sign.detached(messageUint8, privateKeyBytes));
 
         Object.assign(doc.proof, {
-            alg: 'ES256K',
+            alg: 'Ed25519',
             signature: signature
         });
 
