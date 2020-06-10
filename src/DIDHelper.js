@@ -5,6 +5,7 @@ import {
   encodeBase64,
   decodeBase64
 } from "tweetnacl-util";
+import { utils } from 'ethers';
 import Axios from 'axios';
 
 class DIDHelper {
@@ -52,20 +53,63 @@ class DIDHelper {
         }
     }
 
+    /**
+     * Get the DID from a username
+     * 
+     * @param {*} username 
+     */
+    async getDidFromUsername(username, host) {
+        try {
+            let response = await Axios.get(host + 'username/getDid?username=' + username);
+            let did = response.data.data.did;
+            return did;
+        } catch (err) {
+            return null;
+        }
+    }
 
     /**
      * Save a DID Document to the server
      */
-    async commit(publicDid, didDocument, host) {
+    async commit(publicDid, didDocument, signature, host) {
         if (!this.verifyProof(didDocument)) {
             throw new Error("Document does not have a valid proof");
         }
 
         try {
-            let response = await Axios.post(host + 'commit', {
+            await Axios.post(host + 'commit', {
                 params: {
                     document: didDocument,
-                    did: publicDid
+                    did: publicDid,
+                    signature: signature
+                }
+            });
+
+            return true;
+        } catch (err) {
+            if (err.response && typeof err.response.data && err.response.data.status == 'fail') {
+                throw new Error(err.response.data.message);
+            }
+
+            throw err;
+        }
+    }
+
+    /**
+     * Link a human readable username with a public DID
+     * 
+     * @todo Put this on the blockchain
+     * @param {string} username Username to link to the DID
+     * @param {string} did Public blockchain DID (ie: Ethereum / VeChain)
+     * @param {string} signature 
+     */
+    async commitUsername(username, did, signature, host) {
+        try {
+            await Axios.post(host + 'username/commit', {
+                params: {
+                    username: username,
+                    did: did,
+                    signature: signature
                 }
             });
 
@@ -126,6 +170,25 @@ class DIDHelper {
         type = type ? type : 'sign';
         let key = this.getKey(doc, type);
         return Buffer.from(key.publicKeyHex.slice(2), 'hex');
+    }
+
+    verifySignedMessage(did, message, sig) {
+        let address = false;
+        let matches = did.match(/0x([a-z0-9]*)/);
+        if (matches.length >1) {
+            address = '0x' + matches[1];
+        }
+
+        if (!address) {
+            return false;
+        }
+
+        try {
+            let signingAddress = utils.verifyMessage(message, sig);
+            return signingAddress.toLowerCase() == address.toLowerCase();
+        } catch (err) {
+            return false;
+        }
     }
 }
 

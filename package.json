@@ -25,6 +25,7 @@
     "axios": "^0.19.1",
     "did-document": "^0.6.2",
     "did-jwt": "^4.0.0",
+    "ethers": "^4.0.47",
     "tweetnacl": "^1.0.2",
     "tweetnacl-util": "^0.15.0"
   },
