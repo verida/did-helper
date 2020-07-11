@@ -1,14 +1,19 @@
 import assert from "assert";
 import { DIDDocument } from 'did-document';
 import DIDHelper from '../src/DIDHelper';
+import { utils } from "ethers";
+import WalletUtils from "@verida/wallet-utils";
 
 describe('DID', async function() {
     describe('Document', async function() {
         let doc;
         let HOST = 'http://localhost:5001/';
+        const CHAIN = 'ethr'
+        const account = WalletUtils.createAccount(CHAIN)
+        const privateKey = account.privateKey
         let privateSignKey = "0xa8fcc1e509786771d02d36103c3c4ce8e4fe741d2a095a395d7e08b2ae15cbb4f7e03208c6f4de184a8db90d24fb8c3171dc417499ae453da4e4108edf9d717b";
 
-        var did = 'did:ethr:0x4e922f72f4f1a27701dde0627dfd693376ab0d02';
+        var did = account.did.toLowerCase(); //'did:ethr:0x4e922f72f4f1a27701dde0627dfd693376ab0d02';
         var vid = 'did:vid:0x2e922f72f4f1a27701dde0627dfd693376ab0d02';
 
         this.beforeAll(async function() {
@@ -63,7 +68,9 @@ describe('DID', async function() {
         
         it('should create DID with public key and save to server', async function() {
             doc = DIDHelper.createProof(doc, privateSignKey);
-            let result = await DIDHelper.commit(did, doc, HOST);
+            const message = "Do you approve access to view and update \"Verida Demo Application\"?\n\n" + did;
+            const sig = await WalletUtils.signMessage('ethr', privateKey, message)
+            let result = await DIDHelper.commit(did, doc, sig, HOST);
             assert(result,true);
         });
 
@@ -77,7 +84,7 @@ describe('DID', async function() {
             }
         });
 
-        it('should support lookig up a VID Document by DID', async function() {
+        it('should support looking up a VID Document by DID', async function() {
             let doc = await DIDHelper.loadForApp(did, "Verida Demo Application", HOST);
             
             // Current issue:

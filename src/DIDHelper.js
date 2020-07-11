@@ -5,7 +5,7 @@ import {
   encodeBase64,
   decodeBase64
 } from "tweetnacl-util";
-import { utils } from 'ethers';
+import utils from '@verida/wallet-utils';
 import Axios from 'axios';
 
 class DIDHelper {
@@ -87,6 +87,7 @@ class DIDHelper {
 
             return true;
         } catch (err) {
+            console.log(err)
             if (err.response && typeof err.response.data && err.response.data.status == 'fail') {
                 throw new Error(err.response.data.message);
             }
@@ -174,17 +175,20 @@ class DIDHelper {
 
     verifySignedMessage(did, message, sig) {
         let address = false;
-        let matches = did.match(/0x([a-z0-9]*)/);
+        let chain = false;
+
+        let matches = did.match(/did:([a-z0-9]*):0x([a-z0-9]*)/);
         if (matches.length >1) {
-            address = '0x' + matches[1];
+            chain = matches[1];
+            address = '0x' + matches[2];
         }
 
-        if (!address) {
+        if (!address || !chain) {
             return false;
         }
 
         try {
-            let signingAddress = utils.verifyMessage(message, sig);
+            let signingAddress = utils.recoverAddress(chain, message, sig)
             return signingAddress.toLowerCase() == address.toLowerCase();
         } catch (err) {
             return false;
