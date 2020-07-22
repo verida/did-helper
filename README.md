@@ -1,3 +1,7 @@
+## DID Helper
+
+This package helps work with Verida DID's
+
 Verida DID Document implementation.
 
 Supports:
@@ -6,3 +10,4 @@ Supports:
 - commit()
 - verifyProof()
 - createProof()
+- verifySignedMessage()

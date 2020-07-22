@@ -1,6 +1,6 @@
 {
   "name": "@verida/did-helper",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "Verida DID Helper",
   "main": "lib/DIDHelper.js",
   "directories": {
@@ -9,7 +9,10 @@
   "scripts": {
     "test": "mocha -mocha --require @babel/polyfill --require @babel/register './test/**/*.js'",
     "build:es5": "rm -rf ./lib; ./node_modules/.bin/babel src --out-dir lib",
-    "build": "npm run build:es5"
+    "build": "npm run build:es5",
+    "preinstall": "npm install --ignore-scripts",
+    "prepublish": "npm run build",
+    "postinstall": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -22,9 +25,11 @@
   },
   "homepage": "https://github.com/verida/did-helper#readme",
   "dependencies": {
+    "@verida/wallet-utils": "^1.0.0",
     "axios": "^0.19.1",
     "did-document": "^0.6.2",
     "did-jwt": "^4.0.0",
+    "ethers": "^4.0.47",
     "tweetnacl": "^1.0.2",
     "tweetnacl-util": "^0.15.0"
   },
