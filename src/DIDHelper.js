@@ -132,17 +132,17 @@ class DIDHelper {
 
         let messageUint8 = decodeUTF8(JSON.stringify(data));
         let signature = encodeBase64(sign.detached(messageUint8, privateKeyBytes));
-        
-        doc.proof({
+
+        data['proof'] = {
             alg: 'Ed25519',
             signature: signature
-        });
+        };
 
-        return doc;
+        return new DIDDocument(data)
     }
 
     verifyProof(doc) {
-        let proof = doc.proof();
+        let proof = doc.proof;
 
         if (typeof(proof.signature) == 'undefined') {
             return false;

@@ -8,7 +8,7 @@ describe('DID', async function() {
         let doc;
         let HOST = 'http://localhost:5001/';
         const CHAIN = 'vechain'
-        const account = WalletUtils.createAccount(CHAIN)
+        const account = WalletUtils.createWallet(CHAIN)
         const privateKey = account.privateKey
         let privateSignKey = "0xa8fcc1e509786771d02d36103c3c4ce8e4fe741d2a095a395d7e08b2ae15cbb4f7e03208c6f4de184a8db90d24fb8c3171dc417499ae453da4e4108edf9d717b";
 
@@ -60,7 +60,7 @@ describe('DID', async function() {
         });
 
         it('should have a verified proof', function() {
-            DIDHelper.createProof(doc, privateSignKey);
+            doc = DIDHelper.createProof(doc, privateSignKey);
             let result = DIDHelper.verifyProof(doc);
             assert(result, true);
         });
