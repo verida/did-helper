@@ -1,4 +1,9 @@
 
+2020-07-24 - v0.5.1
+-----------------------
+
+- Fix issues with `doc.proof` when in react-native environment
+
 2020-07-12 - v0.5
 -----------------------
 
