@@ -142,7 +142,7 @@ class DIDHelper {
     }
 
     verifyProof(doc) {
-        let proof = doc.proof;
+        let proof = doc.proof();
 
         if (typeof(proof.signature) == 'undefined') {
             return false;
