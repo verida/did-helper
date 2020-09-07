@@ -10,9 +10,7 @@
     "test": "mocha -mocha --require @babel/polyfill --require @babel/register './test/**/*.js'",
     "build:es5": "rm -rf ./lib; ./node_modules/.bin/babel src --out-dir lib",
     "build": "npm run build:es5",
-    "preinstall": "npm install --ignore-scripts",
-    "prepublish": "npm run build",
-    "postinstall": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
