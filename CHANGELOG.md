@@ -1,4 +1,9 @@
 
+2020-09-13 - v0.5.2
+-----------------------
+
+- Fix issues with `verifyProof` not fetching the proof correctly
+
 2020-07-24 - v0.5.1
 -----------------------
 
