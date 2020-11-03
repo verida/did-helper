@@ -1,6 +1,6 @@
 {
   "name": "@verida/did-helper",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "Verida DID Helper",
   "main": "lib/DIDHelper.js",
   "directories": {
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/verida/did-helper#readme",
   "dependencies": {
-    "@verida/wallet-utils": "^1.1.0",
+    "@verida/wallet-utils": "^1.2.0",
     "axios": "^0.19.1",
     "did-document": "^0.6.2",
     "did-jwt": "^4.0.0",

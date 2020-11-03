@@ -1,4 +1,9 @@
 
+2020-11-03 v0.6.0
+-----------------------
+
+- Update DID helper to latest so it builds correctly when installed with `npm`
+
 2020-09-13 - v0.5.2
 -----------------------
 
