@@ -142,7 +142,13 @@ class DIDHelper {
     }
 
     verifyProof(doc) {
-        let proof = doc.proof();
+        // Depending on environment `doc.proof` is either an object or a function:
+        let proof;
+        if (typeof(doc.proof) == 'function') {
+            proof = doc.proof();
+        } else {
+            proof = doc.proof;
+        }
 
         if (typeof(proof.signature) == 'undefined') {
             return false;

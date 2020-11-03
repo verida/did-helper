@@ -1,4 +1,10 @@
 
+
+2020-11-04 v0.6.1
+-----------------------
+
+- Handle `doc.proof` being an object or function depending on environment (to support react-native)
+
 2020-11-03 v0.6.0
 -----------------------
 
