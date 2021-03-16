@@ -183,10 +183,10 @@ class DIDHelper {
         let address = false;
         let chain = false;
 
-        let matches = did.match(/did:([a-z0-9]*):0x([a-z0-9]*)/);
+        let matches = did.match(/did:([a-z0-9]*):([a-z0-9\.]*)/);
         if (matches.length >1) {
             chain = matches[1];
-            address = '0x' + matches[2];
+            address = matches[2];
         }
 
         if (!address || !chain) {
@@ -194,8 +194,7 @@ class DIDHelper {
         }
 
         try {
-            let signingAddress = utils.recoverAddress(chain, message, sig)
-            return signingAddress.toLowerCase() == address.toLowerCase();
+            return utils.verifySignature(chain, message, sig, did)
         } catch (err) {
             return false;
         }
