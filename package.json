@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "mocha -mocha --require @babel/polyfill --require @babel/register './test/**/*.js'",
-    "build:es5": "rm -rf ./lib; ./node_modules/.bin/babel src --out-dir lib",
+    "build:es5": "rm -rf lib; ./node_modules/.bin/babel src -d lib",
     "build": "npm run build:es5",
     "prepublishOnly": "npm run build"
   },
@@ -33,7 +33,7 @@
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.1",
-    "@babel/polyfill": "^7.12.1",
+    "@babel/plugin-transform-runtime": "^7.12.10",
     "@babel/preset-env": "^7.12.1",
     "@babel/register": "^7.12.1",
     "mocha": "^7.0.0"
