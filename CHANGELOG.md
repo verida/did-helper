@@ -1,4 +1,9 @@
 
+2021-03-18 v0.7.1
+-----------------------
+
+- Update to latest `@verida/wallet-utils` with NEAR fixes
+
 2021-03-17 v0.7.0
 -----------------------
 
