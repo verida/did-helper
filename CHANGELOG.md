@@ -1,4 +1,9 @@
 
+2021-06-23 v0.7.2
+-----------------------
+
+- Remove unecessary `did-jwt` dependency to resolve issues in `@verida/datastore`
+
 2021-03-18 v0.7.1
 -----------------------
 
